@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NSU AI Adoption: From Pilots to Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0; --card:#ffffff; --ink:#111111; --mute:#5b5b5b; --line:#dedad2;
+  --nsu:#262626; --goal:#1f6f66; --goalt:#dcefeb; --peer:#a9a9a9; --soft:#efece5;
+  --serif:'Source Serif 4',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:40px 28px 64px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+h1{font-family:var(--serif);font-size:40px;line-height:1.1;margin:8px 0 12px}
+h2{font-family:var(--serif);font-size:26px;margin:4px 0 6px}
+.lede{max-width:720px;color:#2b2b2b;margin:0}
+section{margin-top:44px}
+.stage{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.sub{color:#2b2b2b;margin:0 0 18px;max-width:760px}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:20px;font-size:13px;color:#2b2b2b;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:50%;display:inline-block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 16px}
+.chips .lab{font-size:13px;color:var(--mute);margin-right:4px}
+button.chip{font:500 13px var(--sans);border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button.chip[aria-pressed="true"]{background:var(--nsu);color:#fff;border-color:var(--nsu)}
+button.chip.goal[aria-pressed="true"]{background:var(--goal);border-color:var(--goal)}
+button.link{font:500 13px var(--sans);background:none;border:none;color:var(--goal);text-decoration:underline;cursor:pointer;padding:6px}
+/* stage cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end}
+.scard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;position:relative}
+.scard h3{margin:2px 0 6px;font-size:18px}
+.scard p{margin:0;font-size:14px}
+.scard .n{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:10px}
+.scard.today{border:2px solid var(--nsu);background:#ececec}
+.scard.target{border:2px solid var(--goal);background:var(--goalt)}
+.tag{position:absolute;top:-12px;left:14px;font-size:12px;font-weight:600;color:#fff;padding:3px 10px;border-radius:999px}
+.tag.t{background:var(--nsu)} .tag.g{background:var(--goal)}
+.arrow{color:var(--goal);font-size:13px;margin-top:10px}
+/* grid */
+.gridwrap{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 18px 12px}
+.pg{display:grid;grid-template-columns:190px repeat(3,1fr);}
+.pg .colh{font-weight:600;font-size:13px;text-align:center;padding:0 0 8px}
+.pg .rowh{padding:12px 12px 12px 0;font-size:14px;display:flex;flex-direction:column;justify-content:center}
+.pg .rowh b{font-weight:600}
+.pg .rowh small{color:var(--mute);font-size:12px}
+.cell{border:1px solid var(--line);margin:-1px 0 0 -1px;min-height:112px;padding:10px;position:relative;transition:opacity .2s, background .2s}
+.cell .cnt{position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:13px;color:var(--mute)}
+.dots{display:flex;flex-wrap:wrap;gap:6px;max-width:150px}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--peer);transition:background .2s}
+.row-dim .cell{opacity:.28}
+.row-on .dot{background:#6d6d6d}
+.mk{position:absolute;bottom:10px;left:10px;font-size:12px;font-weight:600;color:#fff;padding:4px 10px;border-radius:999px}
+.mk.t{background:var(--nsu)} .mk.g{background:var(--goal)}
+.path{position:absolute;bottom:22px;height:0;border-top:2px dashed var(--goal);pointer-events:none}
+.callout{margin-top:14px;padding:12px 14px;background:var(--soft);border-radius:8px;font-size:14px}
+.note{font-size:12px;color:var(--mute);margin-top:10px}
+/* rubric */
+.rub{display:grid;grid-template-columns:190px repeat(3,1fr);gap:8px}
+.rub .colh{font-weight:600;font-size:13px;text-align:center}
+.rub .dim{font-weight:600;font-size:14px;display:flex;align-items:center}
+.rc{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 12px 24px;font-size:13.5px;cursor:pointer;text-align:left;font-family:var(--sans);color:var(--ink);position:relative;min-height:62px}
+.rc:hover{border-color:#9a9a9a}
+.rc.today{border:2px solid var(--nsu);background:#ececec}
+.rc.target{border:2px solid var(--goal);background:var(--goalt)}
+.rc.today.target{background:linear-gradient(135deg,#ececec 50%,var(--goalt) 50%)}
+.rc .pill{position:absolute;right:8px;bottom:6px;font-size:10.5px;font-weight:600;color:#fff;padding:1px 7px;border-radius:999px}
+.summary{margin-top:14px;font-size:14px}
+/* findings */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.fcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column}
+.fcard h3{font-size:16px;margin:0 0 6px}
+.fcard p{font-size:14px;margin:0 0 10px;flex:1}
+.who{font-family:var(--mono);font-size:11.5px;color:var(--mute)}
+.dchip{display:inline-block;font-size:11px;font-weight:600;color:var(--goal);background:var(--goalt);padding:2px 8px;border-radius:999px;margin:0 6px 8px 0}
+.fcard.hl{outline:2px solid var(--goal)}
+footer{margin-top:48px;border-top:1px solid var(--line);padding-top:16px;font-size:12.5px;color:var(--mute)}
+footer a{color:var(--goal)}
+footer p{margin:4px 0}
+#tip{position:fixed;pointer-events:none;background:#111;color:#fff;font-size:12px;padding:5px 8px;border-radius:6px;opacity:0;transition:opacity .1s;z-index:9}
+@media (max-width:760px){
+  .cards3,.cards{grid-template-columns:1fr}
+  .pg,.rub{grid-template-columns:110px repeat(3,1fr)}
+  h1{font-size:30px}
+  .rc{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Nevada State University · AI for Institutional Transformation</div>
+  <h1>From Pilots to Practice</h1>
+  <p class="lede">Where NSU stands on AI adoption, how we compare with 28 broad-access institutions, and what reaching Stage 3 would take. Built from T3 Advisory's national study and its Institutional AI Adoption Rubric.</p>
+  <div class="legend">
+    <span><i class="sw" style="background:var(--nsu)"></i>NSU today</span>
+    <span><i class="sw" style="background:var(--goal)"></i>NSU goal</span>
+    <span><i class="sw" style="background:var(--peer)"></i>Peer institution in the study</span>
+  </div>
+
+  <section id="stages">
+    <div class="stage">Part 1</div>
+    <h2>Three stages of adoption</h2>
+    <p class="sub">T3 placed each institution in one of three stages. Most were still in the first two.</p>
+    <div class="cards3">
+      <div class="scard today"><span class="tag t">NSU today</span>
+        <div class="stage">Stage 1</div><h3>Experimental and Emerging</h3>
+        <p>Scattered pilots and individual champions. Interest is real, but the work isn't connected.</p>
+        <div class="n">12 of 28 institutions</div></div>
+      <div class="scard">
+        <div class="stage">Stage 2</div><h3>Scaling</h3>
+        <p>Coordinated effort with shared structures. Leadership support shows up here.</p>
+        <div class="n">11 of 28 institutions</div></div>
+      <div class="scard target"><span class="tag g">Where we're headed</span>
+        <div class="stage">Stage 3</div><h3>Transforming</h3>
+        <p>AI is part of strategy and daily operations, all in service of the mission.</p>
+        <div class="n">5 of 28 institutions</div></div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <div class="stage">Part 2</div>
+    <h2>How we compare</h2>
+    <p class="sub">Each dot is one institution, sorted by endowment and adoption stage. Pick a group to compare with.</p>
+    <div class="chips" role="group" aria-label="Compare with">
+      <span class="lab">Compare with:</span>
+      <button class="chip" data-f="all" aria-pressed="true">All 28</button>
+      <button class="chip" data-f="2" aria-pressed="false">Resource-constrained</button>
+      <button class="chip" data-f="1" aria-pressed="false">Moderately resourced</button>
+      <button class="chip" data-f="0" aria-pressed="false">Well-resourced</button>
+    </div>
+    <div class="gridwrap">
+      <div class="pg" id="pg"></div>
+      <div class="callout" id="callout"></div>
+      <div class="note">NSU is placed in the Resource-Constrained row as a working assumption. T3 sorted institutions by endowment, and its cutoffs sit in an appendix that isn't public.</div>
+    </div>
+  </section>
+
+  <section id="rubric">
+    <div class="stage">Part 3</div>
+    <h2>What "better" means</h2>
+    <p class="sub">T3's rubric looks at five dimensions. An institution can sit at different levels on each one. Choose a marker, then click a cell to place NSU.</p>
+    <div class="chips" role="group" aria-label="Marker">
+      <span class="lab">Marking:</span>
+      <button class="chip" data-m="today" aria-pressed="true">NSU today</button>
+      <button class="chip goal" data-m="target" aria-pressed="false">NSU goal</button>
+      <button class="link" id="reset">Reset</button>
+    </div>
+    <div class="rub" id="rub"></div>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <section id="levers">
+    <div class="stage">Part 4</div>
+    <h2>What moves institutions forward</h2>
+    <p class="sub">Lessons from the study and from the November 2026 T3 webinar with Elizabeth Riley (UNC System) and Monique Reeves (Austin Community College). When you place NSU on a dimension above, the lessons tied to it light up.</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <footer>
+    <p><b>Sources.</b> T3 Advisory and Complete College America, <a href="https://static1.squarespace.com/static/642df5973675b560bd94fafc/t/691655589a990b1a7334d192/1763071320030/T3+Advisory_Adopting+AI+in+Higher+Education-Patterns%2C+Challenges%2C+and+Emerging+Practices.pdf">Adopting AI in Higher Education: Patterns, Challenges, and Emerging Practices</a> (2025), Tables 6 and 7. T3 Advisory, Complete College America, and Learn Consulting, <a href="https://static1.squarespace.com/static/642df5973675b560bd94fafc/t/68f132a9d949cc6cd79e600d/1760637609662/T3-AI-Adoption-Rubric.pdf">Institutional AI Adoption Rubric</a> (2025, CC BY 4.0), indicators paraphrased. Audrey Ellis, <a href="https://wcet.wiche.edu/frontiers/2026/01/29/five-common-myths-about-ai-in-higher-education-and-what-our-research-actually-found/">WCET Frontiers</a> (January 2026). T3 Advisory webinar on AI leadership (November 2026).</p>
+    <p><b>About the numbers.</b> T3 interviewed 33 institutions. The cross-analysis covers the 28 with complete resource and adoption data. The report's 17% Transforming figure uses a base of 29.</p>
+  </footer>
+</div>
+<div id="tip"></div>
+<script>
+(function(){
+  const STAGES=['Experimental and Emerging','Scaling','Transforming'];
+  const ROWS=[
+    {name:'Well-Resourced',sub:'median endowment $1.85B',c:[0,0,4],short:'well-resourced'},
+    {name:'Moderately Resourced',sub:'median endowment $120M',c:[3,5,1],short:'moderately resourced'},
+    {name:'Resource-Constrained',sub:'median endowment $12.4M',c:[9,6,0],short:'resource-constrained'}
+  ];
+  const CALL={
+    all:'<b>5 of 28 institutions reached Stage 3.</b> Four of those five are well-resourced. The other 23 are still experimenting or scaling.',
+    '2':'<b>None of the 15 resource-constrained institutions reached Stage 3.</b> Six made it to Scaling. If NSU gets there, we\'d be ahead of every resource-constrained school in the study.',
+    '1':'<b>1 of 9 moderately resourced institutions reached Stage 3.</b> Five are Scaling, which shows coordination is possible without a large endowment.',
+    '0':'<b>All 4 well-resourced institutions reached Stage 3.</b> Money helps. T3 argues it isn\'t the only factor, but its own data shows it matters most at the top stage.'
+  };
+  const tip=document.getElementById('tip');
+  function showTip(e,t){tip.textContent=t;tip.style.left=(e.clientX+12)+'px';tip.style.top=(e.clientY+12)+'px';tip.style.opacity=1}
+  function hideTip(){tip.style.opacity=0}
+
+  // peer grid
+  const pg=document.getElementById('pg');
+  pg.innerHTML='<div></div>'+STAGES.map(s=>'<div class="colh">'+s+'</div>').join('');
+  ROWS.forEach((r,i)=>{
+    const rh=document.createElement('div');rh.className='rowh';rh.dataset.row=i;
+    rh.innerHTML='<b>'+r.name+'</b><small>'+r.sub+'</small>';pg.appendChild(rh);
+    r.c.forEach((n,j)=>{
+      const c=document.createElement('div');c.className='cell';c.dataset.row=i;
+      if(i===2)c.style.background='#faf9f6';
+      c.innerHTML='<span class="cnt">'+n+'</span><div class="dots">'+'<i class="dot"></i>'.repeat(n)+'</div>';
+      c.querySelectorAll('.dot').forEach(d=>{
+        d.addEventListener('mousemove',e=>showTip(e,r.name+' · '+STAGES[j]));
+        d.addEventListener('mouseleave',hideTip);
+      });
+      if(i===2&&j===0)c.insertAdjacentHTML('beforeend','<span class="mk t" id="mkT">NSU today</span>');
+      if(i===2&&j===2)c.insertAdjacentHTML('beforeend','<span class="mk g" id="mkG">NSU goal</span>');
+      pg.appendChild(c);
+    });
+  });
+  const path=document.createElement('div');path.className='path';pg.style.position='relative';pg.appendChild(path);
+  function drawPath(){
+    const a=document.getElementById('mkT').getBoundingClientRect(),b=document.getElementById('mkG').getBoundingClientRect(),p=pg.getBoundingClientRect();
+    path.style.left=(a.right-p.left+8)+'px';path.style.width=Math.max(0,b.left-a.right-16)+'px';path.style.top=(a.top-p.top+a.height/2)+'px';path.style.bottom='auto';
+  }
+  window.addEventListener('resize',drawPath);setTimeout(drawPath,50);if(document.fonts)document.fonts.ready.then(drawPath);
+
+  const callout=document.getElementById('callout');
+  function setFilter(f){
+    document.querySelectorAll('[data-f]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.f===f)));
+    pg.querySelectorAll('.cell,.rowh').forEach(el=>{
+      const on=f==='all'||el.dataset.row===f;
+      el.classList.toggle('row-dim',false);
+      if(el.classList.contains('cell')){el.style.opacity=on?1:.28;el.classList.toggle('row-on',f!=='all'&&on);}
+      else el.style.opacity=on?1:.4;
+    });
+    callout.innerHTML=CALL[f];
+  }
+  document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>setFilter(b.dataset.f)));
+  setFilter('all');
+
+  // rubric
+  const DIMS=[
+    {k:'coord',name:'Adoption Coordination',l:['Uncoordinated, mostly individual experimentation','Institutional oversight and planned coordination','AI built into strategy and implementation']},
+    {k:'lead',name:'Leadership Support',l:['Limited executive engagement','Executive support for AI','Executives strategically involved in adoption']},
+    {k:'policy',name:'Policy Development',l:['No guidelines, or limited to academic integrity','Guidelines in development or recently set','Guidelines established and widely communicated']},
+    {k:'res',name:'Resource Commitment',l:['Minimal, ad hoc funding','Planned AI investments','Dedicated AI budget and infrastructure']},
+    {k:'tech',name:'Technology Deployment',l:['Limited user access','Institution-wide access and coordinated licensing','Multiple platforms and a planned tool portfolio']}
+  ];
+  const DEF={today:[0,0,0,0,0],target:[2,2,2,2,2]};
+  let st;try{st=JSON.parse(localStorage.getItem('nsu-ai-rubric'))}catch(e){}
+  if(!st||!st.today||!st.target)st=JSON.parse(JSON.stringify(DEF));
+  let mode='today',focus=null;
+  const rub=document.getElementById('rub');
+  function save(){try{localStorage.setItem('nsu-ai-rubric',JSON.stringify(st))}catch(e){}}
+  function renderRub(){
+    rub.innerHTML='<div></div>'+['Stage 1: Experimental','Stage 2: Scaling','Stage 3: Transforming'].map(s=>'<div class="colh">'+s+'</div>').join('');
+    DIMS.forEach((d,i)=>{
+      const h=document.createElement('div');h.className='dim';h.textContent=d.name;rub.appendChild(h);
+      d.l.forEach((txt,j)=>{
+        const b=document.createElement('button');b.className='rc';
+        const t=st.today[i]===j,g=st.target[i]===j;
+        if(t)b.classList.add('today');if(g)b.classList.add('target');
+        let pill='';
+        if(t&&g)pill='<span class="pill" style="background:var(--nsu)">Today and goal</span>';
+        else if(t)pill='<span class="pill" style="background:var(--nsu)">Today</span>';
+        else if(g)pill='<span class="pill" style="background:var(--goal)">Goal</span>';
+        b.innerHTML=txt+pill;
+        b.setAttribute('aria-label',d.name+', '+['Stage 1','Stage 2','Stage 3'][j]+': '+txt);
+        b.addEventListener('click',()=>{st[mode][i]=j;focus=d.k;save();renderRub();renderCards();});
+        rub.appendChild(b);
+      });
+    });
+    const gaps=DIMS.map((d,i)=>({n:d.name,g:st.target[i]-st.today[i]})).filter(x=>x.g>0);
+    const cnt=a=>[0,1,2].map(j=>a.filter(v=>v===j).length);
+    const ct=cnt(st.today),cg=cnt(st.target);
+    const desc=c=>[['Stage 1',c[0]],['Stage 2',c[1]],['Stage 3',c[2]]].filter(x=>x[1]).map(x=>x[1]+' at '+x[0]).join(', ');
+    document.getElementById('summary').innerHTML='<b>Today:</b> '+desc(ct)+'. <b>Goal:</b> '+desc(cg)+'. '+
+      (gaps.length?('<b>Biggest jumps:</b> '+gaps.sort((a,b)=>b.g-a.g).filter((x,_,arr)=>x.g===arr[0].g).map(x=>x.n).join(', ')+'.'):'No gaps between today and the goal.');
+  }
+  document.querySelectorAll('[data-m]').forEach(b=>b.addEventListener('click',()=>{
+    mode=b.dataset.m;document.querySelectorAll('[data-m]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  }));
+  document.getElementById('reset').addEventListener('click',()=>{st=JSON.parse(JSON.stringify(DEF));focus=null;save();renderRub();renderCards();});
+
+  // findings
+  const CARDS=[
+    {d:['coord'],h:'Break down the silos',p:'Institutions with cross-functional working groups (academic affairs, student services, IT, institutional research) moved further than those that kept AI in one department.',w:'T3 study, via WCET'},
+    {d:['lead'],h:'Every manager is an AI leader',p:'Leadership is the factor institutions most underestimate. Anyone who supervises people sets the tone for how they use AI.',w:'Audrey Ellis, T3 Advisory'},
+    {d:['policy'],h:'Start with the policies you already have',p:'Procurement, data classification, and security review already cover most AI questions. Write new policy where AI is different, like academic integrity.',w:'Elizabeth Riley, UNC System'},
+    {d:['coord','lead'],h:'Build a council that includes skeptics',p:'A cross-functional AI council needs academic affairs, student affairs, IT, legal, faculty, and students, plus critics, so you don\'t find a missing voice 75% of the way in.',w:'Monique Reeves, Austin CC'},
+    {d:['res','coord'],h:'Tie every project to the mission and measure it',p:'ACC tests every new initiative against its strategic plan and its 70% completion goal. UNC sets goals and metrics before a project starts and checks them over time.',w:'Reeves and Riley'},
+    {d:['res','tech'],h:'Give champions structure and resources',p:'The biggest problems AI champions face are being under-resourced and unstructured. Leaders can fix both and use the talent already on campus.',w:'T3 champions playbook preview'},
+    {d:['tech','policy'],h:'Staff literacy comes first',p:'Students can\'t fully build AI literacy unless faculty and staff know how to model it. UNC built one shared AI literacy course that its institutions now use in different ways.',w:'T3 study, via WCET; Riley'},
+    {d:['tech'],h:'Use AI to make human time count',p:'Let AI handle the basics before an advising meeting so the student arrives with better questions and the adviser can focus on mentoring.',w:'Elizabeth Riley, UNC System'},
+    {d:['res'],h:'Decide when to stop',p:'Define "done," set a risk appetite, and name who can pull the plug. Per-use pricing makes the cost of a weak project visible.',w:'Reeves and Riley'}
+  ];
+  const DN={coord:'Coordination',lead:'Leadership',policy:'Policy',res:'Resources',tech:'Technology'};
+  function renderCards(){
+    const el=document.getElementById('cards');
+    el.innerHTML=CARDS.map(c=>'<div class="fcard'+(focus&&c.d.includes(focus)?' hl':'')+'">'+
+      '<div>'+c.d.map(k=>'<span class="dchip">'+DN[k]+'</span>').join('')+'</div>'+
+      '<h3>'+c.h+'</h3><p>'+c.p+'</p><div class="who">'+c.w+'</div></div>').join('');
+  }
+  renderRub();renderCards();
+})();
+</script>
+</body>
+</html>
